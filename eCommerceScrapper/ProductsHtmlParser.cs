@@ -1,6 +1,5 @@
 ﻿using eCommerceScrapper.Interfaces;
 using HtmlAgilityPack;
-using System;
 using System.Net.Http;
 
 namespace eCommerceScrapper
@@ -12,9 +11,10 @@ namespace eCommerceScrapper
         private readonly HttpClient _httpClient = new HttpClient();
 
         /*TODO: Make HtmlParser with generic type out if possible, returnet type shoud be provided by concrete strategy*/
+        /*TODO: Dla ebay strategy model zawsze powinien byc taki sam. */
         /* We can use generic type return public T foo<T>() */
 
-        public ProductsHtmlParser(IParseStrategiesProvider strategiesProvider)
+        public ProductsHtmlParser (IParseStrategiesProvider strategiesProvider)
 
         {
             _strategiesProvider = strategiesProvider;
@@ -23,27 +23,36 @@ namespace eCommerceScrapper
             //_htmlDocument.Load(htmlSteam);
         }
 
-        public bool TryParsePage(string url, out HtmlNode htmlNode)
+        public bool TryParsePage (string url, out HtmlNode htmlNode)
         {
             var htmlSteam = _httpClient.GetStringAsync(url).Result;
             var htmlDocument = new HtmlDocument();
             htmlDocument.LoadHtml(htmlSteam);
 
-            htmlNode = null;
-
-            foreach (var strategy in _strategiesProvider.Strategies)
+            foreach ( var strategy in _strategiesProvider.Strategies )
             {
-                if (strategy.Compute(htmlDocument))
+                if ( strategy.TryCompute(htmlDocument, out HtmlNode result) )
                 {
-                    Console.WriteLine($"ItemList htmlParser used: {strategy.GetType().Name}");
-                    htmlNode = strategy.Result;
-                    break;
+                    htmlNode = result;
+                    return true;
                 }
-
-                Console.WriteLine($"Couldn't ParseHtmlStrategy html  {strategy.GetType().Name}");
             }
 
-            return htmlNode != null;
+            htmlNode = null;
+            return false;
+
+            //htmlNode = null;
+            //foreach (var strategy in _strategiesProvider.Strategies)
+            //{
+            //    if (strategy.TryCompute(htmlDocument, out  htmlNode) )
+            //    {
+            //        Console.WriteLine($"ItemList htmlParser used: {strategy.GetType().Name}");
+            //        break;
+            //    }
+            //    Console.WriteLine($"Couldn't ParseHtmlStrategy html  {strategy.GetType().Name}");
+            //}
+
+            //return htmlNode != null;
         }
     }
 }

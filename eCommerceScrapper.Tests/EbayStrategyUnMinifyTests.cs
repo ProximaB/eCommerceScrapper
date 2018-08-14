@@ -9,6 +9,7 @@ namespace eCommerceScrapper.Tests
         public EbayStrategyMinifyTests ()
         {
         }
+
         public EbayStrategyUnMinify Subject ()
         {
             return new EbayStrategyUnMinify();
@@ -16,6 +17,7 @@ namespace eCommerceScrapper.Tests
 
         // MethodName_StateUnderTest_ExpectedBehavior
         //Two assert https://softwareengineering.stackexchange.com/questions/267204/how-do-you-unit-test-a-function-that-clears-properties
+        // https://softwareengineering.stackexchange.com/questions/7823/is-it-ok-to-have-multiple-asserts-in-a-single-unit-test
         [Fact]
         public void Compute_WithEmptyHtmlDocument_ReturnFalseResultIsNull ()
         {
@@ -24,11 +26,11 @@ namespace eCommerceScrapper.Tests
             var htmlDocument = new HtmlDocument();
 
             //Act
-            var result = strategy.Compute(htmlDocument);
+            var success = strategy.TryCompute(htmlDocument, out HtmlNode result);
 
             //Assert
-            Assert.False(result);
-            Assert.Null(strategy.Result);
+            Assert.False(success);
+            Assert.Null(result);
         }
 
         [Fact]
@@ -40,11 +42,11 @@ namespace eCommerceScrapper.Tests
             htmlDocument.LoadHtml("<ul id=\"ListViewInner\">qwe</ul>");
 
             //Act
-            var result = strategy.Compute(htmlDocument);
+            var success = strategy.TryCompute(htmlDocument, out HtmlNode result);
 
             //Assert
-            Assert.True(result);
-            Assert.NotNull(strategy.Result);
+            Assert.True(success);
+            Assert.NotNull(result);
         }
     }
 }

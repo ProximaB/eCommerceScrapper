@@ -4,8 +4,10 @@ namespace eCommerceScrapper.Interfaces
 {
     public interface IParseHtmlStrategy
     {
-        bool Compute (HtmlDocument htmlDoc);
+        bool TryCompute (HtmlDocument htmlDocument, out HtmlNode result);
 
-        HtmlNode Result { get; }
+        //bool TryCompute (HtmlDocument htmlDoc);
+
+        //HtmlNode Result { get; }
     }
 }

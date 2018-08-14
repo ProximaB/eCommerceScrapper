@@ -1,33 +1,39 @@
 ﻿using eCommerceScrapper.Interfaces;
 using HtmlAgilityPack;
-using System;
 
 namespace eCommerceScrapper.ParseHtmlStrategies
 {
     public abstract class ParseHtmlStrategy : IParseHtmlStrategy
     {
-        public HtmlNode Result { get; private set; }
+        //public HtmlNode Result { get; private set; }
 
         protected abstract HtmlNode Parser (HtmlDocument htmlDocument);
 
-        public bool Compute (HtmlDocument htmlDoc)
+        public bool TryCompute (HtmlDocument htmlDoc, out HtmlNode result)
         {
-            try
-            {
-                var productListHtml = Parser(htmlDoc);
+            var productListHtml = Parser(htmlDoc);
 
-                if ( productListHtml == null )
-                {
-                    return false;
-                }
-
-                Result = productListHtml;
-                return true;
-            }
-            catch ( NullReferenceException )
+            if ( productListHtml == null )
             {
+                result = null;
                 return false;
             }
+
+            result = productListHtml;
+            return true;
         }
+
+        //public bool TryCompute (HtmlDocument htmlDoc)
+        //{
+        //    var productListHtml = Parser(htmlDoc);
+
+        //    if ( productListHtml == null )
+        //    {
+        //        return false;
+        //    }
+
+        //    Result = productListHtml;
+        //    return true;
+        //}
     }
 }
