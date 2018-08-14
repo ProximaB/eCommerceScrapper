@@ -1,8 +1,9 @@
-﻿using HtmlAgilityPack;
+﻿using eCommerceScrapper.Interfaces;
+using HtmlAgilityPack;
 using System;
 using System.Net.Http;
 
-public partial class Program
+namespace eCommerceScrapper
 {
     public class ProductsHtmlParser
     {
@@ -10,7 +11,11 @@ public partial class Program
         private readonly HtmlDocument _htmlDocument;
         private readonly HttpClient _httpClient = new HttpClient();
 
-        public ProductsHtmlParser (IParseStrategiesProvider strategiesProvider)
+        /*TODO: Make HtmlParser with generic type out if possible, returnet type shoud be provided by concrete strategy*/
+        /* We can use generic type return public T foo<T>() */
+
+        public ProductsHtmlParser(IParseStrategiesProvider strategiesProvider)
+
         {
             _strategiesProvider = strategiesProvider;
             //var htmlSteam = _httpClient.GetStreamAsync(url).Result;
@@ -28,21 +33,17 @@ public partial class Program
 
             foreach (var strategy in _strategiesProvider.Strategies)
             {
-                
-                if ( strategy.Compute(htmlDocument) )
+                if (strategy.Compute(htmlDocument))
                 {
                     Console.WriteLine($"ItemList htmlParser used: {strategy.GetType().Name}");
                     htmlNode = strategy.Result;
                     break;
                 }
-                else
-                {
-                    Console.WriteLine($"Couldn't ParseHtmlStrategy html  {strategy.GetType().Name}");
-                }
+
+                Console.WriteLine($"Couldn't ParseHtmlStrategy html  {strategy.GetType().Name}");
             }
 
             return htmlNode != null;
         }
     }
-
 }
