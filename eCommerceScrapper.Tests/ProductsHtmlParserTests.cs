@@ -1,9 +1,8 @@
 using eCommerceScrapper.Interfaces;
 using HtmlAgilityPack;
 using Moq;
-using System;
-using System.Collections.Generic;
 using RichardSzalay.MockHttp;
+using System.Collections.Generic;
 using Xunit;
 
 namespace eCommerceScrapper.Tests
@@ -12,7 +11,6 @@ namespace eCommerceScrapper.Tests
     {
         public ProductsHtmlParserTests ()
         {
-            
         }
 
         private ProductsHtmlParser CreateProductsHtmlParser (IParseStrategiesProvider mockParseStrategiesProvider, MockHttpMessageHandler mockHttpMessageHandler)
@@ -22,12 +20,12 @@ namespace eCommerceScrapper.Tests
         }
 
         [Fact]
-        public void TryParsePage_StrategiesDontMatch_ReturnFalseResultIsNull()
+        public void TryParsePage_StrategiesDontMatch_ReturnFalseResultIsNull ()
         {
             // Arrange
             var mockParseHtmlStrategy = new Mock<IParseHtmlStrategy>();
             HtmlNode htmlNode = null;
-            mockParseHtmlStrategy.Setup(m => m.TryCompute(new HtmlDocument(), out htmlNode)).Callback(() => htmlNode = null).Returns(false);
+            mockParseHtmlStrategy.Setup(m => m.TryCompute(new HtmlDocument(), out htmlNode)).Returns(false).Callback(() => htmlNode = null);
             var mockListOfIParseHtmlStartegy = new List<IParseHtmlStrategy>() { mockParseHtmlStrategy.Object };
 
             var mockParseStrategiesProvider = new Mock<IParseStrategiesProvider>();
@@ -50,22 +48,20 @@ namespace eCommerceScrapper.Tests
         }
 
         [Fact]
-        public void TryParsePage_StrategyMatch_ReturnTrueResultNotNull()
+        public void TryParsePage_StrategyMatch_ReturnTrueResultNotNull ()
         {
             // Arrange
-            var mockHtmlDoc = new HtmlDocument();
-            mockHtmlDoc.LoadHtml("<p>mock</p>");
-            HtmlNode htmlNode = null;
 
+            var htmlNode = HtmlNode.CreateNode("<div><div/>"); //htmlNode is out argument for TryParse
             var mockParseHtmlStrategy = new Mock<IParseHtmlStrategy>();
-            mockParseHtmlStrategy.Setup(m => m.TryCompute(mockHtmlDoc, out htmlNode)).Callback(() => htmlNode = HtmlNode.CreateNode("<p>mock</p>")).Returns(true);
-            var mockListOfIParseHtmlStartegy = new List<IParseHtmlStrategy>() { mockParseHtmlStrategy.Object };
+            mockParseHtmlStrategy.Setup(m => m.TryCompute(It.IsAny<HtmlDocument>(), out htmlNode)).Returns(true);
+            var mockListOfIParseHtmlStrategy = new List<IParseHtmlStrategy>() { mockParseHtmlStrategy.Object };
 
             var mockParseStrategiesProvider = new Mock<IParseStrategiesProvider>();
-            mockParseStrategiesProvider.Setup(m => m.Strategies).Returns(mockListOfIParseHtmlStartegy);
+            mockParseStrategiesProvider.Setup(m => m.Strategies).Returns(mockListOfIParseHtmlStrategy);
 
             var mockHttpMessageHandler = new MockHttpMessageHandler();
-            mockHttpMessageHandler.When(@"http://testUrl").Respond("text/html", "<ul id=\"ListViewInner\"/>");
+            mockHttpMessageHandler.When(@"http://testUrl").Respond("text/html", "<ul id=\"whatever\"/>");
 
             var parseStrategiesProvider = mockParseStrategiesProvider.Object;
             var productsHtmlParser = CreateProductsHtmlParser(parseStrategiesProvider, mockHttpMessageHandler);
