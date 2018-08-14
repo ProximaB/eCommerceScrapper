@@ -3,6 +3,7 @@ using HtmlAgilityPack;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.IO;
+using System.Net.Http;
 
 namespace eCommerceScrapper
 {
@@ -10,7 +11,7 @@ namespace eCommerceScrapper
     {
         public static IConfiguration Configuration { get; set; }
 
-        public static IConfiguration configurationProvider ()
+        public static IConfiguration ConfigurationProvider ()
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
@@ -21,14 +22,14 @@ namespace eCommerceScrapper
 
         public static void Main (string[] args = null)
         {
-            Configuration = configurationProvider();
+            Configuration = ConfigurationProvider();
 
             Console.WriteLine($"ebay = {Configuration["urls:ebayUrls:2:title"]}");
 
             var url = Configuration["urls:ebayUrls:1:url"];
             var strategies = new EbayStrategiesProvider();
 
-            var parser = new ProductsHtmlParser(strategies);
+            var parser = new ProductsHtmlParser(strategies, new HttpClientHandler());
             if ( parser.TryParsePage(url, out HtmlNode htmlNode) == true )
             {
                 Console.WriteLine("Resultat Products Htmlparser");

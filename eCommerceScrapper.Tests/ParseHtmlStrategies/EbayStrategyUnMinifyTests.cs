@@ -2,11 +2,11 @@ using eCommerceScrapper.ParseHtmlStrategies;
 using HtmlAgilityPack;
 using Xunit;
 
-namespace eCommerceScrapper.Tests
+namespace eCommerceScrapper.Tests.ParseHtmlStrategies
 {
-    public class EbayStrategyMinifyTests
+    public class EbayStrategyUnMinifyTests
     {
-        public EbayStrategyMinifyTests ()
+        public EbayStrategyUnMinifyTests ()
         {
         }
 
@@ -19,7 +19,7 @@ namespace eCommerceScrapper.Tests
         //Two assert https://softwareengineering.stackexchange.com/questions/267204/how-do-you-unit-test-a-function-that-clears-properties
         // https://softwareengineering.stackexchange.com/questions/7823/is-it-ok-to-have-multiple-asserts-in-a-single-unit-test
         [Fact]
-        public void Compute_WithEmptyHtmlDocument_ReturnFalseResultIsNull ()
+        public void TryCompute_WithEmptyHtmlDocument_ReturnFalseResultIsNull ()
         {
             //Arange
             var strategy = Subject();
@@ -39,7 +39,7 @@ namespace eCommerceScrapper.Tests
             //Arange
             var strategy = Subject();
             var htmlDocument = new HtmlDocument();
-            htmlDocument.LoadHtml("<ul id=\"ListViewInner\">qwe</ul>");
+            htmlDocument.LoadHtml("<ul id=\"ListViewInner\"/>");
 
             //Act
             var success = strategy.TryCompute(htmlDocument, out HtmlNode result);
@@ -48,5 +48,6 @@ namespace eCommerceScrapper.Tests
             Assert.True(success);
             Assert.NotNull(result);
         }
+
     }
 }

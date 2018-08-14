@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace eCommerceScrapper.ParseHtmlStrategies
 {
-    internal class EbayStrategyMinify : ParseHtmlStrategy
+    public class EbayStrategyMinify : ParseHtmlStrategy
     {
         protected override HtmlNode Parser (HtmlDocument htmlDocument)
         {

@@ -5,8 +5,6 @@ namespace eCommerceScrapper.ParseHtmlStrategies
 {
     public abstract class ParseHtmlStrategy : IParseHtmlStrategy
     {
-        //public HtmlNode Result { get; private set; }
-
         protected abstract HtmlNode Parser (HtmlDocument htmlDocument);
 
         public bool TryCompute (HtmlDocument htmlDoc, out HtmlNode result)
@@ -22,18 +20,5 @@ namespace eCommerceScrapper.ParseHtmlStrategies
             result = productListHtml;
             return true;
         }
-
-        //public bool TryCompute (HtmlDocument htmlDoc)
-        //{
-        //    var productListHtml = Parser(htmlDoc);
-
-        //    if ( productListHtml == null )
-        //    {
-        //        return false;
-        //    }
-
-        //    Result = productListHtml;
-        //    return true;
-        //}
     }
 }
