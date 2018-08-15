@@ -27,9 +27,14 @@ namespace eCommerceScrapper
             Console.WriteLine($"ebay = {Configuration["urls:ebayUrls:2:title"]}");
 
             var url = Configuration["urls:ebayUrls:1:url"];
-            var strategies = new EbayStrategiesProvider();
 
-            var parser = new ProductsHtmlParser(strategies, new HttpClientHandler());
+            var httpClientHandler = new HttpClientHandler();
+            var httpClient = new HttpClient();
+            httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (compatible; AcmeInc/1.0");
+            var strategies = new EbayStrategiesProvider(httpClient);
+
+            var parser = new ProductsHtmlParser(strategies);
+
             if ( parser.TryParsePage(url, out HtmlNode htmlNode) == true )
             {
                 Console.WriteLine("Resultat Products Htmlparser");

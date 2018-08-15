@@ -1,8 +1,10 @@
 using Moq;
 using System;
+using System.Net.Http;
 using Xunit;
 using eCommerceScrapper.ParseHtmlStrategies;
 using HtmlAgilityPack;
+using RichardSzalay.MockHttp;
 
 namespace eCommerceScrapper.Tests.ParseHtmlStrategies
 {
@@ -15,7 +17,10 @@ namespace eCommerceScrapper.Tests.ParseHtmlStrategies
 
         private EbayStrategyMinify Subject ()
         {
-            return new EbayStrategyMinify();
+            var mockHttpMessageHandler = new MockHttpMessageHandler();
+            mockHttpMessageHandler.When(@"http://testUrl").Respond("text/html", "<ul id=\"ListViewInner\"/>");
+            var mockhttpClient = new HttpClient(mockHttpMessageHandler);
+            return new EbayStrategyMinify(mockhttpClient);
         }
 
         [Fact]
@@ -23,13 +28,12 @@ namespace eCommerceScrapper.Tests.ParseHtmlStrategies
         {
             // Arrange
             var strategy = Subject();
-            var htmlDocument = new HtmlDocument();
+            var url =  "";
 
             // Act
-            var success = strategy.TryCompute(htmlDocument, out var result);
+            var result = strategy.Compute(url);
 
             // Assert
-            Assert.False(success);
             Assert.Null(result);
         }
 

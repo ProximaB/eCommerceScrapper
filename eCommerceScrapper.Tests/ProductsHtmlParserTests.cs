@@ -4,6 +4,7 @@ using Moq;
 using RichardSzalay.MockHttp;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Net.Http;
 using Xunit;
 
 #pragma warning disable 219
@@ -16,10 +17,10 @@ namespace eCommerceScrapper.Tests
         {
         }
 
-        private ProductsHtmlParser CreateProductsHtmlParser (IParseStrategiesProvider mockParseStrategiesProvider, MockHttpMessageHandler mockHttpMessageHandler)
+        private ProductsHtmlParser CreateProductsHtmlParser (IParseStrategiesProvider mockParseStrategiesProvider, HttpClient mockHttpClient)
         {
             return new ProductsHtmlParser(
-                mockParseStrategiesProvider, mockHttpMessageHandler);
+                mockParseStrategiesProvider, mockHttpClient);
         }
 
         // ReSharper disable once RedundantAssignment
@@ -45,8 +46,9 @@ namespace eCommerceScrapper.Tests
             var mockHttpMessageHandler = new MockHttpMessageHandler();
             mockHttpMessageHandler.When(@"http://testUrl").Respond("text/html", "<ul id=\"ListViewInner\"/>");
 
+            var mockhttpClient = new HttpClient(mockHttpMessageHandler);
             var parseStrategiesProvider = mockParseStrategiesProvider.Object;
-            var productsHtmlParser = CreateProductsHtmlParser(parseStrategiesProvider, mockHttpMessageHandler);
+            var productsHtmlParser = CreateProductsHtmlParser(parseStrategiesProvider, mockhttpClient);
 
             var url = @"http://testUrl";
 
@@ -72,9 +74,10 @@ namespace eCommerceScrapper.Tests
 
             var mockHttpMessageHandler = new MockHttpMessageHandler();
             mockHttpMessageHandler.When(@"http://testUrl").Respond("text/html", "<div>node<div/>");
+            var mockhttpClient = new HttpClient(mockHttpMessageHandler);
 
             var parseStrategiesProvider = mockParseStrategiesProvider.Object;
-            var productsHtmlParser = CreateProductsHtmlParser(parseStrategiesProvider, mockHttpMessageHandler);
+            var productsHtmlParser = CreateProductsHtmlParser(parseStrategiesProvider, mockhttpClient);
 
             var url = @"http://testUrl";
 
@@ -102,9 +105,10 @@ namespace eCommerceScrapper.Tests
 
             var mockHttpMessageHandler = new MockHttpMessageHandler();
             mockHttpMessageHandler.When(@"http://testUrl").Respond("text/html", "<div>node<div/>");
+            var mockhttpClient = new HttpClient(mockHttpMessageHandler);
 
             var parseStrategiesProvider = mockParseStrategiesProvider.Object;
-            var productsHtmlParser = CreateProductsHtmlParser(parseStrategiesProvider, mockHttpMessageHandler);
+            var productsHtmlParser = CreateProductsHtmlParser(parseStrategiesProvider, mockhttpClient);
 
             var url = @"http://testUrl";
 
