@@ -19,6 +19,7 @@ namespace eCommerceScrapper.ParseHtmlStrategies
         }
 
         protected abstract HtmlNode Parser (string url);
+        protected abstract HttpRequestMessage HttpRequestMessage ();
 
         protected abstract bool UrlValid (string url);
 
@@ -33,13 +34,16 @@ namespace eCommerceScrapper.ParseHtmlStrategies
 
         protected HtmlDocument GetHtmlResponse (string url, Action<HttpRequestMessage> preAction)
         {
-            // _httpClient.GetHtmlPreAction(url, x => x.Headers.UserAge
+            var request = new HttpRequestMessage(HttpMethod.Get, url);
+            request.Headers.TryAddWithoutValidation("User-Agent", "Mozilla/5.0 (Linux; U; " +
+            "Android 4.0.2; en-us; Galaxy Nexus Build/ICL53F) AppleWebKit/534.30 (KHTML," +
+            " like Gecko) Version/4.0 Mobile Safari/534.30");
 
             var htmlString = _httpClient.GetStringAsync(url).Result;
             var htmlDocument = new HtmlDocument();
             htmlDocument.LoadHtml(htmlString);
 
-            return htmlDocument;
+            return htmlDocument; 
         }
 
         //public bool TryCompute (string url, out HtmlNode result)

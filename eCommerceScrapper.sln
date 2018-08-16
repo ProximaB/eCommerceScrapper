@@ -5,7 +5,9 @@ VisualStudioVersion = 15.0.27703.2042
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eCommerceScrapper", "eCommerceScrapper\eCommerceScrapper.csproj", "{B358DF46-587A-47EF-91A8-4C54E9571E7A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eCommerceScrapper.Tests", "eCommerceScrapper.Tests\eCommerceScrapper.Tests.csproj", "{91F7919E-DDFF-4CD6-992C-611DC65D2A5D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eCommerceScrapper.Tests", "eCommerceScrapper.Tests\eCommerceScrapper.Tests.csproj", "{91F7919E-DDFF-4CD6-992C-611DC65D2A5D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eCommerceScrapper.Integration.Tests", "eCommerceScrapper.Integration.Tests\eCommerceScrapper.Integration.Tests.csproj", "{162C2231-8C86-4051-8009-04B9B844F066}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{91F7919E-DDFF-4CD6-992C-611DC65D2A5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{91F7919E-DDFF-4CD6-992C-611DC65D2A5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{91F7919E-DDFF-4CD6-992C-611DC65D2A5D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{162C2231-8C86-4051-8009-04B9B844F066}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{162C2231-8C86-4051-8009-04B9B844F066}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{162C2231-8C86-4051-8009-04B9B844F066}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{162C2231-8C86-4051-8009-04B9B844F066}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
