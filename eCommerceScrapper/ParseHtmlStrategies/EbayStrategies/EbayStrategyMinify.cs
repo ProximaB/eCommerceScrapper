@@ -1,14 +1,14 @@
-﻿using HtmlAgilityPack;
-using System.Linq;
+﻿using System.Linq;
 using System.Net.Http;
+using HtmlAgilityPack;
 
-namespace eCommerceScrapper.ParseHtmlStrategies
+namespace eCommerceScrapper.ParseHtmlStrategies.EbayStrategies
 {
     public class EbayStrategyMinify : ParseHtmlStrategy
     {
-        protected override HtmlNode Parser (string url)
+        protected override HtmlNode Parser (HtmlDocument htmlDocument)
         {
-            var htmlDocument = GetHtmlResponse(url, null); //TODO: find way to change user agent
+            
             HtmlNode productListHtml = htmlDocument.DocumentNode
                 .Descendants("ul").FirstOrDefault(node =>
                     node.GetAttributeValue("class", "").Equals("srp-results srp-list clearfix"));
@@ -18,6 +18,17 @@ namespace eCommerceScrapper.ParseHtmlStrategies
 
             return productListHtml;
         }
+
+
+        protected override void PreRequestAction(HttpRequestMessage request)
+        {
+            request.Headers.TryAddWithoutValidation("User-Agent", "Mozilla/5.0 (Linux; U; " +
+                                                    "Android 4.0.2; en-us; Galaxy Nexus Build/ICL53F) " +
+                                                    "AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0" +
+                                                    " Mobile Safari/534.30");
+        }
+
+
 
         protected override bool UrlValid(string url)
         {

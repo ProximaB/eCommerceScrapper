@@ -10,7 +10,7 @@ using Xunit;
 namespace eCommerceScrapper.Integration.Tests.Scenerios
 {
     [Collection("SystemCollection")]
-    class SetUserAgentTests
+    public class SetUserAgentTests
     {
         public readonly TestContext Context;
 

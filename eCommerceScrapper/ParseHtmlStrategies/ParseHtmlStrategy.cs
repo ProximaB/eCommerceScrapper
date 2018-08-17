@@ -18,8 +18,8 @@ namespace eCommerceScrapper.ParseHtmlStrategies
             _httpClient = httpClient;
         }
 
-        protected abstract HtmlNode Parser (string url);
-        protected abstract HttpRequestMessage HttpRequestMessage ();
+        protected abstract HtmlNode Parser (HtmlDocument htmlDocument);
+        protected abstract void PreRequestAction (HttpRequestMessage request);
 
         protected abstract bool UrlValid (string url);
 
@@ -28,42 +28,22 @@ namespace eCommerceScrapper.ParseHtmlStrategies
             if ( !UrlValid(url) )
                 return null;
 
-            var productListHtml = Parser(url);
+            var htmlDocument = GetHtmlResponse(url);
+            var productListHtml = Parser(htmlDocument);
             return productListHtml;
         }
 
-        protected HtmlDocument GetHtmlResponse (string url, Action<HttpRequestMessage> preAction)
+        protected HtmlDocument GetHtmlResponse (string url)// Action<HttpRequestMessage> preRequestAction)
         {
             var request = new HttpRequestMessage(HttpMethod.Get, url);
-            request.Headers.TryAddWithoutValidation("User-Agent", "Mozilla/5.0 (Linux; U; " +
-            "Android 4.0.2; en-us; Galaxy Nexus Build/ICL53F) AppleWebKit/534.30 (KHTML," +
-            " like Gecko) Version/4.0 Mobile Safari/534.30");
 
+            PreRequestAction(request);
+            
             var htmlString = _httpClient.GetStringAsync(url).Result;
             var htmlDocument = new HtmlDocument();
             htmlDocument.LoadHtml(htmlString);
 
             return htmlDocument; 
         }
-
-        //public bool TryCompute (string url, out HtmlNode result)
-        //{
-        //    if (!UrlValid(url))
-        //    {
-        //        result = null;
-        //        return false;
-        //    }
-
-        //    var productListHtml = Parser(url);
-
-        //    if ( productListHtml == null )
-        //    {
-        //        result = null;
-        //        return false;
-        //    }
-
-        //    result = productListHtml;
-        //    return true;
-        //}
     }
 }

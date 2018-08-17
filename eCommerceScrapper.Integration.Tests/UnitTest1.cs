@@ -8,7 +8,7 @@ namespace eCommerceScrapper.Integration.Tests
         [Fact]
         public void Test1()
         {
-
+            Assert.False(true);
         }
     }
 }

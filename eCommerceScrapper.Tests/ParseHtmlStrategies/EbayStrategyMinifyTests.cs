@@ -3,6 +3,7 @@ using System;
 using System.Net.Http;
 using Xunit;
 using eCommerceScrapper.ParseHtmlStrategies;
+using eCommerceScrapper.ParseHtmlStrategies.EbayStrategies;
 using HtmlAgilityPack;
 using RichardSzalay.MockHttp;
 
@@ -49,7 +50,7 @@ namespace eCommerceScrapper.Tests.ParseHtmlStrategies
             htmlDocument.LoadHtml(html);
 
             //Act
-            var success = strategy.TryCompute(htmlDocument, out var result);
+            var success = strategy.Compute("http://test/");
 
             // Assert
             Assert.True(success);

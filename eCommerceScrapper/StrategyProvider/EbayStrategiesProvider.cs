@@ -2,6 +2,7 @@
 using eCommerceScrapper.ParseHtmlStrategies;
 using System.Collections.Generic;
 using System.Net.Http;
+using eCommerceScrapper.ParseHtmlStrategies.EbayStrategies;
 
 namespace eCommerceScrapper.StrategyProvider
 {
