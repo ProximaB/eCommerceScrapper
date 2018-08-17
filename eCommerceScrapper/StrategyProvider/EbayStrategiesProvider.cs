@@ -1,22 +1,21 @@
 ﻿using eCommerceScrapper.Interfaces;
-using eCommerceScrapper.ParseHtmlStrategies;
+using eCommerceScrapper.ParseHtmlStrategies.EbayStrategies;
 using System.Collections.Generic;
 using System.Net.Http;
-using eCommerceScrapper.ParseHtmlStrategies.EbayStrategies;
 
 namespace eCommerceScrapper.StrategyProvider
 {
-    public class EbayStrategiesProvider : IParseStrategiesProvider
+    public class EbayStrategiesProvider : IParseStrategiesProvider<IEbayStrategy>
     {
         private readonly HttpClient _httpClient;
 
-        public EbayStrategiesProvider(HttpClient httpClient)
+        public EbayStrategiesProvider (HttpClient httpClient)
         {
             _httpClient = httpClient;
         }
 
-        public List<IParseHtmlStrategy> Strategies =>
-            new List<IParseHtmlStrategy>()
+        public List<IEbayStrategy> Strategies =>
+            new List<IEbayStrategy>()
             {
                 new EbayStrategyUnMinify(_httpClient),
                 new EbayStrategyMinify(_httpClient)

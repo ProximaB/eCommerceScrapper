@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using eCommerceScrapper.Integration.Tests.Fixtures;
+﻿using eCommerceScrapper.Integration.Tests.Fixtures;
 using FluentAssertions;
+using System.Net;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace eCommerceScrapper.Integration.Tests.Scenerios

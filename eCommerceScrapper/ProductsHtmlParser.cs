@@ -1,7 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using eCommerceScrapper.Interfaces;
-using HtmlAgilityPack;
-using System.Net.Http;
+﻿using HtmlAgilityPack;
 
 namespace eCommerceScrapper
 {
@@ -18,9 +15,9 @@ namespace eCommerceScrapper
             _strategiesProvider = strategiesProvider;
         }
 
-        public bool TryParsePage(string url, out HtmlNode htmlNode)
+        public bool TryParsePage (string url, out HtmlNode htmlNode)
         {
-            foreach (var strategy in _strategiesProvider.Strategies)
+            foreach ( var strategy in _strategiesProvider.Strategies )
             {
                 var result = strategy.Compute(url);
                 if ( result != null )
@@ -33,7 +30,5 @@ namespace eCommerceScrapper
             htmlNode = null;
             return false;
         }
-
-        
     }
 }

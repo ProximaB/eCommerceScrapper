@@ -2,8 +2,8 @@
 
 namespace eCommerceScrapper.Interfaces
 {
-    public interface IParseStrategiesProvider
+    public interface IParseStrategiesProvider<T> where T : IParseHtmlStrategy
     {
-        List<IParseHtmlStrategy> Strategies { get; }
+        List<T> Strategies { get; }
     }
 }

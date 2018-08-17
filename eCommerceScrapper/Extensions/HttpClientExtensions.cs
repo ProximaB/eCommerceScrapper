@@ -1,9 +1,8 @@
-﻿using HtmlAgilityPack;
-using System;
+﻿using System;
 using System.Net.Http;
 using System.Net.Http.Formatting;
-using System.Threading.Tasks;
 using System.Net.Http.Headers;
+using System.Threading.Tasks;
 
 namespace eCommerceScrapper.Extensions
 {
@@ -19,7 +18,7 @@ namespace eCommerceScrapper.Extensions
             return httpClient.SendAsync(httpRequestMessage);
         }
 
-        public static Task<HttpResponseMessage> PostAsJsonAsync<T> 
+        public static Task<HttpResponseMessage> PostAsJsonAsync<T>
             (this HttpClient httpClient, string uri, T value, Action<HttpRequestMessage> preAction)
         {
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, uri)

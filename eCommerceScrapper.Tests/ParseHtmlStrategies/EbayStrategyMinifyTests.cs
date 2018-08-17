@@ -1,17 +1,13 @@
-using Moq;
-using System;
-using System.Net.Http;
-using Xunit;
-using eCommerceScrapper.ParseHtmlStrategies;
 using eCommerceScrapper.ParseHtmlStrategies.EbayStrategies;
 using HtmlAgilityPack;
 using RichardSzalay.MockHttp;
+using System.Net.Http;
+using Xunit;
 
 namespace eCommerceScrapper.Tests.ParseHtmlStrategies
 {
     public class EbayStrategyMinifyTests
     {
-
         public EbayStrategyMinifyTests ()
         {
         }
@@ -29,7 +25,7 @@ namespace eCommerceScrapper.Tests.ParseHtmlStrategies
         {
             // Arrange
             var strategy = Subject();
-            var url =  "";
+            var url = "";
 
             // Act
             var result = strategy.Compute(url);
@@ -39,7 +35,7 @@ namespace eCommerceScrapper.Tests.ParseHtmlStrategies
         }
 
         [Fact]
-        public void TryCompute_WithValidHtmlDocument_ReturnTrueResultNotNull()
+        public void TryCompute_WithValidHtmlDocument_ReturnTrueResultNotNull ()
         {
             // Arrange
             var strategy = Subject();

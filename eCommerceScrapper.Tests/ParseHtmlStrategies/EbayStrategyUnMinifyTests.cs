@@ -1,4 +1,4 @@
-using eCommerceScrapper.ParseHtmlStrategies;
+using eCommerceScrapper.ParseHtmlStrategies.EbayStrategies;
 using HtmlAgilityPack;
 using Xunit;
 
@@ -48,6 +48,5 @@ namespace eCommerceScrapper.Tests.ParseHtmlStrategies
             Assert.True(success);
             Assert.NotNull(result);
         }
-
     }
 }
