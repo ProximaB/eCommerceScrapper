@@ -33,7 +33,7 @@ namespace eCommerceScrapper
             httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (compatible; AcmeInc/1.0");
             var strategies = new EbayStrategiesProvider(httpClient);
 
-            var parser = new ProductsHtmlParser(strategies);
+            var parser = new DataScrapper<>(strategies);
 
             if ( parser.TryParsePage(url, out HtmlNode htmlNode) == true )
             {

@@ -1,16 +1,17 @@
-﻿using HtmlAgilityPack;
+﻿using eCommerceScrapper.Interfaces;
+using HtmlAgilityPack;
 
 namespace eCommerceScrapper
 {
-    public class ProductsHtmlParser
+    public class DataScrapper<T> where T : IParseHtmlStrategy 
     {
-        private readonly IParseStrategiesProvider _strategiesProvider;
+        private readonly IParseStrategiesProvider<T> _strategiesProvider;
 
         /*TODO: Make HtmlParser with generic type out if possible, returnet type shoud be provided by concrete strategy*/
         /*TODO: Dla ebay strategy model zawsze powinien byc taki sam. */
         /* We can use generic type return public T foo<T>() */
 
-        public ProductsHtmlParser (IParseStrategiesProvider strategiesProvider)
+        public DataScrapper (IParseStrategiesProvider<T> strategiesProvider)
         {
             _strategiesProvider = strategiesProvider;
         }

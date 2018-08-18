@@ -11,15 +11,15 @@ using Xunit;
 
 namespace eCommerceScrapper.Tests
 {
-    public class ProductsHtmlParserTests
+    public class DataScrapperTests
     {
-        public ProductsHtmlParserTests ()
+        public DataScrapperTests ()
         {
         }
 
-        private ProductsHtmlParser CreateProductsHtmlParser (IParseStrategiesProvider mockParseStrategiesProvider, HttpClient mockHttpClient)
+        private DataScrapper<> CreateProductsHtmlParser (IParseStrategiesProvider mockParseStrategiesProvider, HttpClient mockHttpClient)
         {
-            return new ProductsHtmlParser(
+            return new DataScrapper<>(
                 mockParseStrategiesProvider, mockHttpClient);
         }
 
