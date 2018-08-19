@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.IO;
 using System.Net.Http;
+using eCommerceScrapper.Interfaces;
 
 namespace eCommerceScrapper
 {
@@ -25,21 +26,26 @@ namespace eCommerceScrapper
             Configuration = ConfigurationProvider();
 
             Console.WriteLine($"ebay = {Configuration["urls:ebayUrls:2:title"]}");
+            var ebayUrl = Configuration["urls:ebayUrls:2:title"];
+            var strategies = new EbayStrategiesProvider();
+            var strategiesProcessorBase = new StrategiesProcessorBase<IEbayStrategy>(strategies, new HttpClient());
+            var result = strategiesProcessorBase.Process(ebayUrl, false);
 
-            var url = Configuration["urls:ebayUrls:1:url"];
+            Console.WriteLine(result.InnerHtml);
+            //var url = Configuration["urls:ebayUrls:1:url"];
 
-            var httpClientHandler = new HttpClientHandler();
-            var httpClient = new HttpClient();
-            httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (compatible; AcmeInc/1.0");
-            var strategies = new EbayStrategiesProvider(httpClient);
+            //var httpClientHandler = new HttpClientHandler();
+            //var httpClient = new HttpClient();
+            //httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (compatible; AcmeInc/1.0");
+            //var strategies = new EbayStrategiesProvider(httpClient);
 
-            var parser = new DataScrapper<>(strategies);
+            //var parser = new DataScrapper<>(strategies);
 
-            if ( parser.TryParsePage(url, out HtmlNode htmlNode) == true )
-            {
-                Console.WriteLine("Resultat Products Htmlparser");
-                Console.WriteLine(htmlNode.InnerText);
-            }
+            //if ( parser.TryParsePage(url, out HtmlNode htmlNode) == true )
+            //{
+            //    Console.WriteLine("Resultat Products Htmlparser");
+            //    Console.WriteLine(htmlNode.InnerText);
+            //}
         }
     }
 }

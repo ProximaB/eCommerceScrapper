@@ -1,11 +1,14 @@
-﻿using HtmlAgilityPack;
+﻿using System.Net.Http;
+using HtmlAgilityPack;
 
 namespace eCommerceScrapper.Interfaces
 {
     public interface IParseHtmlStrategy
     {
-        HtmlNode Compute (string url);
+        HtmlNode Parser (HtmlDocument htmlDocument);
 
-        //HtmlNode Parse(HtmlDocument);
+        bool IsUrlValid(string url);
+
+        void PreRequestAction(HttpRequestMessage request);
     }
 }
