@@ -1,6 +1,6 @@
 ﻿namespace eCommerceScrapper.Interfaces
 {
-    public interface IEbayStrategy : IParseHtmlStrategy
+    public interface IEbayStrategy : IParseStrategy
     {
     }
 }

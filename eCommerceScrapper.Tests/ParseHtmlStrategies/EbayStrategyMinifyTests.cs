@@ -1,7 +1,10 @@
+using System;
 using eCommerceScrapper.ParseHtmlStrategies.EbayStrategies;
 using HtmlAgilityPack;
 using RichardSzalay.MockHttp;
 using System.Net.Http;
+using eCommerceScrapper.Interfaces;
+using Moq;
 using Xunit;
 
 namespace eCommerceScrapper.Tests.ParseHtmlStrategies
@@ -10,28 +13,28 @@ namespace eCommerceScrapper.Tests.ParseHtmlStrategies
     {
         private EbayStrategyMinify Subject ()
         {
-            var mockHttpMessageHandler = new MockHttpMessageHandler();
-            mockHttpMessageHandler.When(@"http://testUrl").Respond("text/html", "<ul id=\"ListViewInner\"/>");
-            var mockhttpClient = new HttpClient(mockHttpMessageHandler);
-            return new EbayStrategyMinify(mockhttpClient);
+            //var mockHttpMessageHandler = new MockHttpMessageHandler();
+            //mockHttpMessageHandler.When(@"http://testUrl").Respond("text/html", "<ul id=\"ListViewInner\"/>");
+            //var mockhttpClient = new HttpClient(mockHttpMessageHandler);
+            return new EbayStrategyMinify();
         }
 
         [Fact]
-        public void TryCompute_WithEmptyHtmlDocument_ReturnFalseResultIsNull ()
+        public void Parser_WithEmptyHtmlDocument_ResultIsNull ()
         {
             // Arrange
             var strategy = Subject();
-            var url = "";
+            var emptyDocument = new HtmlDocument();
 
             // Act
-            var result = strategy.Compute(url);
+            var result = strategy.Parser(emptyDocument);
 
             // Assert
             Assert.Null(result);
         }
 
         [Fact]
-        public void TryCompute_WithValidHtmlDocument_ReturnTrueResultNotNull ()
+        public void Parser_WithValidHtmlDocument_ResultNotNull ()
         {
             // Arrange
             var strategy = Subject();
@@ -42,11 +45,48 @@ namespace eCommerceScrapper.Tests.ParseHtmlStrategies
             htmlDocument.LoadHtml(html);
 
             //Act
-            var success = strategy.Compute("http://test/");
+            var result = strategy.Parser(htmlDocument);
 
             // Assert
-            Assert.True(success);
             Assert.NotNull(result);
+        }
+
+        [Fact]
+        public void IsUrlValid_PassingValidUrlForStrategy_ResultTrue ()
+        {
+            // Arrange
+            var strategy = Subject();
+
+            //Act
+            var result = strategy.IsUrlValid("http://www.ebay.com/");
+
+            // Assert
+            Assert.True(result);
+        }
+
+        [Fact]
+        public void IsUrlValid_PassingInvalidUrlForStrategy_ResultFalse ()
+        {
+            // Arrange
+            var strategy = Subject();
+
+            //Act
+            var result = strategy.IsUrlValid("http://www.InvalidUrl.com/");
+
+            // Assert
+            Assert.False(result);
+        }
+
+        [Fact]
+        public void PreRequestAction_CheckingIfHttpRequestMessageModifiedSuccessfully_ResultTrue ()
+        {
+            // Arrange
+            var strategy = Subject();
+            var httpRequestMessage = new HttpRequestMessage();
+            //Act
+            var result = strategy.PreRequestAction(httpRequestMessage);
+            // Assert
+            Assert.True(result);
         }
     }
 }

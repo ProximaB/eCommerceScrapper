@@ -3,12 +3,12 @@ using System.Net.Http;
 
 namespace eCommerceScrapper.Interfaces
 {
-    public interface IParseHtmlStrategy
+    public interface IParseStrategy
     {
         HtmlNode Parser (HtmlDocument htmlDocument);
 
         bool IsUrlValid (string url);
 
-        void PreRequestAction (HttpRequestMessage request);
+        bool PreRequestAction (HttpRequestMessage request);
     }
 }

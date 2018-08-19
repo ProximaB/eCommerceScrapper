@@ -5,7 +5,7 @@ using System.Net.Http;
 
 namespace eCommerceScrapper
 {
-    public class StrategiesProcessorBase<T> : IStrategiesProcessor where T : IParseHtmlStrategy
+    public class StrategiesProcessorBase<T> : IStrategiesProcessor where T : IParseStrategy
     {
         private readonly HttpClient _httpClient;
         private readonly IParseStrategiesProvider<T> _strategiesProvider;
@@ -40,7 +40,7 @@ namespace eCommerceScrapper
             return null;
         }
 
-        private HtmlNode ComputeStrategy (IParseHtmlStrategy strategy)
+        private HtmlNode ComputeStrategy (IParseStrategy strategy)
         {
             if ( _urlValidation && !strategy.IsUrlValid(_url) )
                 return null;
@@ -51,7 +51,7 @@ namespace eCommerceScrapper
         }
 
         private HtmlDocument
-            GetHtmlResponse (IParseHtmlStrategy strategy) // Action<HttpRequestMessage> preRequestAction)
+            GetHtmlResponse (IParseStrategy strategy) // Action<HttpRequestMessage> preRequestAction)
         {
             var request = new HttpRequestMessage(HttpMethod.Get, _url);
 

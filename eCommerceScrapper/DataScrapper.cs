@@ -6,7 +6,7 @@
 
 //namespace eCommerceScrapper
 //{
-//    public partial class DataScrapper<T> where T : IParseHtmlStrategy
+//    public partial class DataScrapper<T> where T : IParseStrategy
 //    {
 //        private readonly IStrategiesProcessor _strategiesProcessor;
 

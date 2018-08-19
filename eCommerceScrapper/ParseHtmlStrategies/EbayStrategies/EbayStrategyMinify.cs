@@ -17,15 +17,15 @@ namespace eCommerceScrapper.ParseHtmlStrategies.EbayStrategies
             return productListHtml;
         }
 
-        public void PreRequestAction (HttpRequestMessage request)
+        public bool PreRequestAction (HttpRequestMessage request)
         {
-            request.Headers.TryAddWithoutValidation("User-Agent",
+            return request.Headers.TryAddWithoutValidation("User-Agent",
                 "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36");
         }
 
         public bool IsUrlValid (string url)
         {
-            return true;
+            return url.Contains("www.ebay.com");
         }
     }
 }
