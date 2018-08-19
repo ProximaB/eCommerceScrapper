@@ -8,10 +8,6 @@ namespace eCommerceScrapper.Tests.ParseHtmlStrategies
 {
     public class EbayStrategyMinifyTests
     {
-        public EbayStrategyMinifyTests ()
-        {
-        }
-
         private EbayStrategyMinify Subject ()
         {
             var mockHttpMessageHandler = new MockHttpMessageHandler();
@@ -41,7 +37,7 @@ namespace eCommerceScrapper.Tests.ParseHtmlStrategies
             var strategy = Subject();
             var htmlDocument = new HtmlDocument();
             const string html = "<ul class=\"srp-results srp-list clearfix\">" +
-                                  "<div id=\"srp-river-results-SEARCH_STATUS_MODEL_V2\"/>" +
+                                "<div id=\"srp-river-results-SEARCH_STATUS_MODEL_V2\"/>" +
                                 "</ul>";
             htmlDocument.LoadHtml(html);
 

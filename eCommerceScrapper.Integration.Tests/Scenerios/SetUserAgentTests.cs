@@ -9,12 +9,12 @@ namespace eCommerceScrapper.Integration.Tests.Scenerios
     [Collection("SystemCollection")]
     public class SetUserAgentTests
     {
-        public readonly TestContext Context;
-
         public SetUserAgentTests (TestContext context)
         {
             Context = context;
         }
+
+        public readonly TestContext Context;
 
         [Fact]
         public async Task PingReturnsOkResponse ()

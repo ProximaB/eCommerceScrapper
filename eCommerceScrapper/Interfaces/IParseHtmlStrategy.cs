@@ -1,5 +1,5 @@
-﻿using System.Net.Http;
-using HtmlAgilityPack;
+﻿using HtmlAgilityPack;
+using System.Net.Http;
 
 namespace eCommerceScrapper.Interfaces
 {
@@ -7,8 +7,8 @@ namespace eCommerceScrapper.Interfaces
     {
         HtmlNode Parser (HtmlDocument htmlDocument);
 
-        bool IsUrlValid(string url);
+        bool IsUrlValid (string url);
 
-        void PreRequestAction(HttpRequestMessage request);
+        void PreRequestAction (HttpRequestMessage request);
     }
 }

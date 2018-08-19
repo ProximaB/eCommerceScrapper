@@ -1,6 +1,6 @@
 ﻿using HtmlAgilityPack;
 
-namespace eCommerceScrapper
+namespace eCommerceScrapper.Interfaces
 {
     public interface IStrategiesProcessor
     {

@@ -8,11 +8,18 @@ namespace eCommerceScrapper.Integration.Tests.Fixtures
     public class TestContext : IDisposable
     {
         private TestServer _server;
-        public HttpClient Client { get; private set; }
 
         public TestContext ()
         {
             SetUpClient();
+        }
+
+        public HttpClient Client { get; private set; }
+
+        public void Dispose ()
+        {
+            _server?.Dispose();
+            Client?.Dispose();
         }
 
         private void SetUpClient ()
@@ -28,12 +35,6 @@ namespace eCommerceScrapper.Integration.Tests.Fixtures
             var client = new HttpClient(server);
 
             Client = client;
-        }
-
-        public void Dispose ()
-        {
-            _server?.Dispose();
-            Client?.Dispose();
         }
 
         public class ProductController : ApiController

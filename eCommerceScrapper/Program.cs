@@ -1,10 +1,9 @@
-﻿using eCommerceScrapper.StrategyProvider;
-using HtmlAgilityPack;
+﻿using eCommerceScrapper.Interfaces;
+using eCommerceScrapper.StrategyProvider;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.IO;
 using System.Net.Http;
-using eCommerceScrapper.Interfaces;
 
 namespace eCommerceScrapper
 {
@@ -25,13 +24,16 @@ namespace eCommerceScrapper
         {
             Configuration = ConfigurationProvider();
 
-            Console.WriteLine($"ebay = {Configuration["urls:ebayUrls:2:title"]}");
-            var ebayUrl = Configuration["urls:ebayUrls:2:title"];
+            Console.WriteLine($"ebay = {Configuration["urls:ebayUrls:1:title"]}");
+            var ebayUrl1 = Configuration["urls:ebayUrls:1:url"];
+            var ebayUrl2 = Configuration["urls:ebayUrls:2:url"];
+            var webhook = "https://webhook.site/87a3e69a-ead4-43ca-91da-0d091c1a68d8";
             var strategies = new EbayStrategiesProvider();
             var strategiesProcessorBase = new StrategiesProcessorBase<IEbayStrategy>(strategies, new HttpClient());
-            var result = strategiesProcessorBase.Process(ebayUrl, false);
+            var result = strategiesProcessorBase.Process(Configuration["urls:ebayUrls:0:url"], false);
 
             Console.WriteLine(result.InnerHtml);
+
             //var url = Configuration["urls:ebayUrls:1:url"];
 
             //var httpClientHandler = new HttpClientHandler();

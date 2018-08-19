@@ -6,13 +6,25 @@ namespace eCommerceScrapper.Tests.ParseHtmlStrategies
 {
     public class EbayStrategyUnMinifyTests
     {
-        public EbayStrategyUnMinifyTests ()
-        {
-        }
-
         public EbayStrategyUnMinify Subject ()
         {
             return new EbayStrategyUnMinify();
+        }
+
+        [Fact]
+        public void Compute_WithValidHtmlDocument_ReturnTrueResultIsNotNull ()
+        {
+            //Arange
+            var strategy = Subject();
+            var htmlDocument = new HtmlDocument();
+            htmlDocument.LoadHtml("<ul id=\"ListViewInner\"/>");
+
+            //Act
+            var success = strategy.TryCompute(htmlDocument, out HtmlNode result);
+
+            //Assert
+            Assert.True(success);
+            Assert.NotNull(result);
         }
 
         // MethodName_StateUnderTest_ExpectedBehavior
@@ -31,22 +43,6 @@ namespace eCommerceScrapper.Tests.ParseHtmlStrategies
             //Assert
             Assert.False(success);
             Assert.Null(result);
-        }
-
-        [Fact]
-        public void Compute_WithValidHtmlDocument_ReturnTrueResultIsNotNull ()
-        {
-            //Arange
-            var strategy = Subject();
-            var htmlDocument = new HtmlDocument();
-            htmlDocument.LoadHtml("<ul id=\"ListViewInner\"/>");
-
-            //Act
-            var success = strategy.TryCompute(htmlDocument, out HtmlNode result);
-
-            //Assert
-            Assert.True(success);
-            Assert.NotNull(result);
         }
     }
 }

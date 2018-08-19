@@ -1,10 +1,12 @@
-﻿//using eCommerceScrapper;
+﻿//GOTO: Processors.StrategyProcessorBase
+
+//using eCommerceScrapper;
 //using eCommerceScrapper.Interfaces;
 //using HtmlAgilityPack;
 
 //namespace eCommerceScrapper
 //{
-//    public partial class DataScrapper<T> where T : IParseHtmlStrategy 
+//    public partial class DataScrapper<T> where T : IParseHtmlStrategy
 //    {
 //        private readonly IStrategiesProcessor _strategiesProcessor;
 
