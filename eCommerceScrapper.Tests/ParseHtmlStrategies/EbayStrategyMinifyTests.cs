@@ -1,10 +1,6 @@
-using System;
 using eCommerceScrapper.ParseHtmlStrategies.EbayStrategies;
 using HtmlAgilityPack;
-using RichardSzalay.MockHttp;
 using System.Net.Http;
-using eCommerceScrapper.Interfaces;
-using Moq;
 using Xunit;
 
 namespace eCommerceScrapper.Tests.ParseHtmlStrategies

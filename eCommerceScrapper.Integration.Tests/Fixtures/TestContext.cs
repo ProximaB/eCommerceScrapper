@@ -1,50 +1,42 @@
-﻿using Microsoft.AspNetCore.TestHost;
-using System;
+﻿using System;
 using System.Net.Http;
-using System.Web.Http;
 
 namespace eCommerceScrapper.Integration.Tests.Fixtures
 {
+    /// <summary>
+    /// The test context of integration tests.
+    /// </summary>
     public class TestContext : IDisposable
     {
-        private TestServer _server;
-
         public TestContext ()
         {
-            SetUpClient();
+            this.SetUpClient();
         }
 
-        public HttpClient Client { get; private set; }
+        /// <summary>
+        /// Gets the http client.
+        /// </summary>
+        public HttpClient HttpClient { get; private set; }
 
+        /// <summary>
+        /// The dispose.
+        /// </summary>
         public void Dispose ()
         {
-            _server?.Dispose();
-            Client?.Dispose();
+            this.HttpClient?.Dispose();
         }
 
+        /// <summary>
+        /// The set up client.
+        /// </summary>
         private void SetUpClient ()
         {
-            //var webHostBuilder = new WebHostBuilder().ConfigureAppConfiguration()
-            //var featureCollection = new FeatureCollection();
-            //_server = new TestServer(webHostBuilder, featureCollection);
-            //Client = _server.CreateClient();
-
-            var config = new HttpConfiguration();
-            config.MapHttpAttributeRoutes();
-            var server = new HttpServer(config);
-            var client = new HttpClient(server);
-
-            Client = client;
-        }
-
-        public class ProductController : ApiController
-        {
-            [HttpGet]
-            [Route("api/product/hello/")]
-            public IHttpActionResult Hello ()
+            if ( this.HttpClient != null )
             {
-                return Ok();
+                return;
             }
+
+            this.HttpClient = new HttpClient();
         }
     }
 }

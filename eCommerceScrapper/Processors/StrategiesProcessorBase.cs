@@ -50,8 +50,7 @@ namespace eCommerceScrapper
             return productListHtml;
         }
 
-        private HtmlDocument
-            GetHtmlResponse (IParseStrategy strategy) // Action<HttpRequestMessage> preRequestAction)
+        private HtmlDocument GetHtmlResponse (IParseStrategy strategy) // Action<HttpRequestMessage> preRequestAction)
         {
             var request = new HttpRequestMessage(HttpMethod.Get, _url);
 

@@ -17,6 +17,7 @@ namespace eCommerceScrapper.ParseHtmlStrategies.EbayStrategies
             return productListHtml;
         }
 
+        //TODO: Build advance ParseStrategy that return real object with data.
         public bool PreRequestAction (HttpRequestMessage request)
         {
             return request.Headers.TryAddWithoutValidation("User-Agent",
