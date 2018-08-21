@@ -20,10 +20,11 @@ namespace eCommerceScrapper.Tests
             this.output = output;
         }
 
-        private Mock<IParseStrategy> CreateMockIParseStrategy (HtmlNode returnNode)
+        private Mock<IParseStrategy> CreateMockIParseStrategy (HtmlNode returnNode, bool isUrlValid = true)
         {
             var mockParseStrategy = new Mock<IParseStrategy>();
             mockParseStrategy.Setup(m => m.Parser(It.IsAny<HtmlDocument>())).Returns(returnNode);
+            mockParseStrategy.Setup(m => m.IsUrlValid(It.IsAny<string>())).Returns(isUrlValid);
             return mockParseStrategy;
         }
 
@@ -90,6 +91,48 @@ namespace eCommerceScrapper.Tests
             // Act
             var strategiesProcessor = new StrategiesProcessorBase<IParseStrategy>(mockParseStrategiesProvider.Object, mockHttpMessageHandler.ToHttpClient());
             var result = strategiesProcessor.Process(URL_TEST);
+            // Assert
+            output.WriteLine($"Name of HtmlNode: {result?.Name ?? "NULL"}");
+            Assert.Null(result);
+        }
+
+        [Fact]
+        public void Process_UrlIsNotValid_ResultNull ()
+        {
+            // Arrange
+            var mockHttpMessageHandler = new MockHttpMessageHandler();
+            mockHttpMessageHandler
+                .When(HttpMethod.Get, URL_TEST).Respond("text/html", "Some Respond");
+
+            var mockParseStrategiesProvider = new Mock<IParseStrategiesProvider<IParseStrategy>>();
+            mockParseStrategiesProvider.Setup(m => m.Strategies).Returns(new List<IParseStrategy>
+            {
+                CreateMockIParseStrategy( returnNode: (HtmlNode) null, isUrlValid: false).Object,
+            });
+            // Act
+            var strategiesProcessor = new StrategiesProcessorBase<IParseStrategy>(mockParseStrategiesProvider.Object, mockHttpMessageHandler.ToHttpClient());
+            var result = strategiesProcessor.Process(URL_TEST, urlValidation: true);
+            // Assert
+            output.WriteLine($"Name of HtmlNode: {result?.Name ?? "NULL"}");
+            Assert.Null(result);
+        }
+
+        [Fact]
+        public void Process_UrlIsValid_ResultNotNull ()
+        {
+            // Arrange
+            var mockHttpMessageHandler = new MockHttpMessageHandler();
+            mockHttpMessageHandler
+                .When(HttpMethod.Get, URL_TEST).Respond("text/html", "Some Respond");
+
+            var mockParseStrategiesProvider = new Mock<IParseStrategiesProvider<IParseStrategy>>();
+            mockParseStrategiesProvider.Setup(m => m.Strategies).Returns(new List<IParseStrategy>
+            {
+                CreateMockIParseStrategy( returnNode: (HtmlNode) null, isUrlValid: true).Object,
+            });
+            // Act
+            var strategiesProcessor = new StrategiesProcessorBase<IParseStrategy>(mockParseStrategiesProvider.Object, mockHttpMessageHandler.ToHttpClient());
+            var result = strategiesProcessor.Process(URL_TEST, urlValidation: true);
             // Assert
             output.WriteLine($"Name of HtmlNode: {result?.Name ?? "NULL"}");
             Assert.Null(result);

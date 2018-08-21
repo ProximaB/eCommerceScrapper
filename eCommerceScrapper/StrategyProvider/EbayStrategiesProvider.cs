@@ -6,11 +6,11 @@ namespace eCommerceScrapper.StrategyProvider
 {
     public class EbayStrategiesProvider : IParseStrategiesProvider<IEbayStrategy>
     {
-        public List<IEbayStrategy> Strategies =>
-            new List<IEbayStrategy>
-            {
-                new EbayStrategyUnMinify(),
-                new EbayStrategyMinify()
-            };
+        public IEnumerable<IEbayStrategy> Strategies { get; }
+
+        public EbayStrategiesProvider (IEnumerable<IEbayStrategy> ebayStrategies)
+        {
+            Strategies = ebayStrategies;
+        }
     }
 }
