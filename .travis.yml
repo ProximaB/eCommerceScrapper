@@ -1,9 +1,7 @@
 language: csharp
 mono: none
 dotnet: 2.0
-install:
-  - nuget restore eCommerceScrapper.sln
-  #- nuget install xunit.runners -Version 1.9.2 -OutputDirectory testrunner
 script:
   - dotnet build
-  - dotnet test
+  - dotnet test eCommerceScrapper.Integration.Tests/eCommerceScrapper.Integration.Tests.csproj
+  - dotnet test eCommerceScrapper.Tests/eCommerceScrapper.Tests.csproj
