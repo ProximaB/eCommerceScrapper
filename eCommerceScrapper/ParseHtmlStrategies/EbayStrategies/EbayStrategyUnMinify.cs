@@ -2,6 +2,7 @@
 using HtmlAgilityPack;
 using System.Linq;
 using System.Net.Http;
+using eCommerceScrapper.Models;
 
 namespace eCommerceScrapper.ParseHtmlStrategies.EbayStrategies
 {
@@ -13,6 +14,11 @@ namespace eCommerceScrapper.ParseHtmlStrategies.EbayStrategies
             var productListHtml = htmlDocument.DocumentNode
                 .Descendants("ul").FirstOrDefault(node =>
                     node.GetAttributeValue("id", "") == "ListViewInner");
+
+            var productListItems = productListHtml.Descendants("li")
+                .Where(node => node.GetAttributeValue("id", " ") == "item")
+                .ToList();
+
             return productListHtml;
         }
 

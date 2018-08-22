@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
+﻿using System.Collections.Generic;
+using System.Net.Http;
 using Autofac;
 using eCommerceScrapper.Interfaces;
 using eCommerceScrapper.StrategyProvider;
-using Unity;
-using Unity.RegistrationByConvention;
-using Unity.Strategies;
-using Unity.Container;
+using System;
+using Autofac.Core;
 using IContainer = Autofac.IContainer;
 
 namespace eCommerceScrapper.Bootstrapper
@@ -18,14 +14,29 @@ namespace eCommerceScrapper.Bootstrapper
         public static IContainer RegisterComponents ()
         {
             var builder = new ContainerBuilder();
-            builder.RegisterAssemblyTypes(typeof(IParseStrategy).Assembly)
-                .AssignableTo<IParseStrategy>()
-                .AsImplementedInterfaces();
 
-            builder.Register(c => new EbayStrategiesProvider(c.Resolve<IEnumerable<IEbayStrategy>>())).As<IParseStrategiesProvider<IEbayStrategy>>();
+            // Create Singleton for HttpClient
+            builder.Register(ctx => new HttpClient()) //{ BaseAddress = new Uri("https://api.ipify.org") })
+                .Named<HttpClient>("BaseClient")
+                .SingleInstance();
 
-            var container = builder.Build();
-            return container;
+            // Register all available instances of IEbayStrategy for injection IEnumerable<IEbayStrategy>
+            builder.RegisterAssemblyTypes(typeof(IEbayStrategy).Assembly)
+                .AssignableTo<IEbayStrategy>()
+                .AsImplementedInterfaces()
+                .SingleInstance();
+
+            // Register EBayStrategy Provider
+            builder.Register(c =>
+                    new EbayStrategiesProvider(c.Resolve<IEnumerable<IEbayStrategy>>()))
+                .As<IParseStrategiesProvider<IEbayStrategy>>().InstancePerDependency();
+
+            // Register EbayStrategiesProcessor
+            builder.Register(c =>
+                new EbayStrategiesProcessor(c.Resolve<IParseStrategiesProvider<IEbayStrategy>>(),
+                   c.ResolveNamed<HttpClient>("BaseClient"))).As<EbayStrategiesProcessor>().InstancePerDependency();
+
+            return builder.Build();
         }
     }
 }

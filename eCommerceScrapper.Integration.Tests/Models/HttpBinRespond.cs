@@ -1,4 +1,10 @@
-﻿namespace eCommerceScrapper.Integration.Tests.Models
+﻿using System.Diagnostics.CodeAnalysis;
+
+// ReSharper disable InconsistentNaming
+// ReSharper disable UnusedMember.Global
+#pragma warning disable IDE1006 // Naming Styles
+
+namespace eCommerceScrapper.Integration.Tests.Models
 {
     public class Args
     {

@@ -1,14 +1,9 @@
 ﻿using Autofac;
 using eCommerceScrapper.Interfaces;
-using eCommerceScrapper.StrategyProvider;
 using Microsoft.Extensions.Configuration;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Net.Http;
 using eCommerceScrapper.Bootstrapper;
-using Unity;
 
 namespace eCommerceScrapper
 {
@@ -33,11 +28,14 @@ namespace eCommerceScrapper
             Console.WriteLine($"ebay = {Configuration["urls:ebayUrls:1:title"]}");
             var ebayUrl1 = Configuration["urls:ebayUrls:1:url"];
             var ebayUrl2 = Configuration["urls:ebayUrls:2:url"];
-            var webhook = "https://webhook.site/87a3e69a-ead4-43ca-91da-0d091c1a68d8";
+            //var webhook = "https://webhook.site/87a3e69a-ead4-43ca-91da-0d091c1a68d8";
 
-            var strategies = container.Resolve<IParseStrategiesProvider<IEbayStrategy>>();
-            var strategiesProcessorBase = new StrategiesProcessorBase<IEbayStrategy>(strategies, new HttpClient());
-            var result = strategiesProcessorBase.Process(Configuration["urls:ebayUrls:1:url"], false);
+            //var strategies = container.Resolve<IParseStrategiesProvider<IEbayStrategy>>();
+            //var strategiesProcessorBase = new StrategiesProcessorBase<IEbayStrategy>(strategies, new HttpClient());
+            //var strategiesProcessorBase = new EbayStrategiesProcessor(strategies, new HttpClient());
+
+            var strategiesProcessorBase = container.Resolve<EbayStrategiesProcessor>();
+            var result = strategiesProcessorBase.Process(Configuration["urls:ebayUrls:2:url"], false);
 
             Console.WriteLine(result.InnerHtml);
 

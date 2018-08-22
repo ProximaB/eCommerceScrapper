@@ -2,6 +2,7 @@
 using HtmlAgilityPack;
 using System.Linq;
 using System.Net.Http;
+using eCommerceScrapper.Models;
 
 namespace eCommerceScrapper.ParseHtmlStrategies.EbayStrategies
 {

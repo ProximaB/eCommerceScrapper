@@ -43,7 +43,9 @@ namespace eCommerceScrapper
         private HtmlNode ComputeStrategy (IParseStrategy strategy)
         {
             if ( _urlValidation && !strategy.IsUrlValid(_url) )
+            {
                 return null;
+            }
 
             var htmlDocument = GetHtmlResponse(strategy);
             var productListHtml = strategy.Parser(htmlDocument);
